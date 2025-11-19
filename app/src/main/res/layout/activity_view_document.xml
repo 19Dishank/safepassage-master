@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="@color/bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.ViewDocumentActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/_10sdp">
+
+        <!-- Top Bar -->
+        <RelativeLayout
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg"
+            android:paddingTop="@dimen/_50sdp"
+            android:paddingBottom="@dimen/_10sdp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/backButton"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/lightGreen"
+                app:cardCornerRadius="@dimen/_40sdp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:importantForAccessibility="no"
+                    android:padding="@dimen/_12sdp"
+                    android:src="@drawable/ic_clear"
+                    app:tint="@color/darkGreen" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/lexend_semibold"
+                android:text="@string/documents"
+                android:textColor="@color/main_alt"
+                android:textSize="@dimen/_18sdp" />
+
+        </RelativeLayout>
+
+        <!-- Content -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <!-- RecyclerView for Documents -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewDocuments"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_80sdp"
+                android:visibility="gone"
+                tools:listitem="@layout/document_item_layout"
+                tools:visibility="visible" />
+
+            <!-- Empty State -->
+            <LinearLayout
+                android:id="@+id/emptyStateLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/_20sdp"
+                android:visibility="visible">
+
+                <ImageView
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_80sdp"
+                    android:layout_marginBottom="@dimen/_16sdp"
+                    android:src="@drawable/ic_document"
+                    app:tint="@color/gray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:fontFamily="@font/lexend_semibold"
+                    android:text="@string/no_documents_yet"
+                    android:textColor="@color/main"
+                    android:textSize="@dimen/_16sdp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lexend_regular"
+                    android:gravity="center"
+                    android:text="@string/upload_first_document"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_14sdp" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!-- Floating Action Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddDocument"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_20sdp"
+        android:contentDescription="Add document"
+        android:src="@drawable/ic_plus"
+        app:backgroundTint="@color/green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/main" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

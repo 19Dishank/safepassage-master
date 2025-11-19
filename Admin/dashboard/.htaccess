@@ -1,0 +1,82 @@
+# SafePassage Admin Dashboard Security
+RewriteEngine On
+
+# Allow direct access to setup files
+<Files "setup_admin.php">
+    Order allow,deny
+    Allow from all
+</Files>
+
+<Files "setup_db.php">
+    Order allow,deny
+    Allow from all
+</Files>
+
+<Files "fix_pins_table_final.php">
+    Order allow,deny
+    Allow from all
+</Files>
+
+<Files "debug_pin_issue.php">
+    Order allow,deny
+    Allow from all
+</Files>
+
+<Files "check_db_structure.php">
+    Order allow,deny
+    Allow from all
+</Files>
+
+<Files "update_users_table.php">
+    Order allow,deny
+    Allow from all
+</Files>
+
+# Allow core admin files
+<Files "index.php">
+    Order allow,deny
+    Allow from all
+</Files>
+
+<Files "login.php">
+    Order allow,deny
+    Allow from all
+</Files>
+
+<Files "logout.php">
+    Order allow,deny
+    Allow from all
+</Files>
+
+# Allow pages directory files
+<Files "pages/*.php">
+    Order allow,deny
+    Allow from all
+</Files>
+
+# Prevent access to sensitive files
+<Files "*.sql">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "*.log">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "config/*">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Disable directory browsing
+Options -Indexes

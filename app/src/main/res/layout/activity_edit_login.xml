@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    tools:context=".UI.EditLoginActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_100sdp"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/titleLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardBackgroundColor="@color/main"
+                    app:cardCornerRadius="@dimen/_14sdp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_12sdp">
+
+                        <TextView
+                            android:id="@+id/titleText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lexend_regular"
+                            android:text="@string/title"
+                            android:textColor="@color/gray"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <EditText
+                            android:id="@+id/titleTextBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/main"
+                            android:drawableTint="@color/gray"
+                            android:fontFamily="@font/lexend_semibold"
+                            android:hint="@string/untitled"
+                            android:inputType="text"
+                            android:textSize="@dimen/_18sdp"
+                            tools:ignore="TouchTargetSizeCheck" />
+
+                        <TextView
+                            android:id="@+id/titleErrorText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lexend_regular"
+                            android:text="@string/title_required"
+                            android:textColor="@color/red"
+                            android:textSize="@dimen/_12sdp"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:fontFamily="@font/lexend_regular"
+                    android:text="@string/add_one_of_the_following_options"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_10sdp"
+                    tools:ignore="TextSizeCheck" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    app:cardBackgroundColor="@color/main"
+                    app:cardCornerRadius="@dimen/_14sdp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/emailLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_12sdp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                tools:ignore="UseCompoundDrawables">
+
+                                <ImageView
+                                    android:layout_width="@dimen/_14sdp"
+                                    android:layout_height="@dimen/_14sdp"
+                                    android:layout_gravity="center_vertical"
+                                    android:importantForAccessibility="no"
+                                    android:src="@drawable/ic_email"
+                                    app:tint="@color/gray" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="@dimen/_8sdp"
+                                    android:fontFamily="@font/lexend_regular"
+                                    android:text="@string/email"
+                                    android:textColor="@color/gray"
+                                    android:textSize="@dimen/_12sdp" />
+                            </LinearLayout>
+
+
+                            <EditText
+                                android:id="@+id/emailTextBox"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/main"
+                                android:drawableTint="@color/gray"
+                                android:fontFamily="@font/lexend_semibold"
+                                android:hint="@string/blank"
+                                android:inputType="textEmailAddress"
+                                android:textSize="@dimen/_18sdp"
+                                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+                        </LinearLayout>
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <LinearLayout
+                            android:id="@+id/userNameLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_12sdp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                tools:ignore="UseCompoundDrawables">
+
+                                <ImageView
+                                    android:layout_width="@dimen/_14sdp"
+                                    android:layout_height="@dimen/_14sdp"
+                                    android:layout_gravity="center_vertical"
+                                    android:importantForAccessibility="no"
+                                    android:src="@drawable/ic_user"
+                                    app:tint="@color/gray" />
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/_8sdp"
+                                    android:fontFamily="@font/lexend_regular"
+                                    android:text="@string/username"
+                                    android:textColor="@color/gray"
+                                    android:textSize="@dimen/_12sdp" />
+                            </LinearLayout>
+
+                            <EditText
+                                android:id="@+id/usernameTextBox"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/main"
+                                android:drawableTint="@color/gray"
+                                android:fontFamily="@font/lexend_semibold"
+                                android:hint="@string/blank"
+                                android:inputType="text"
+                                android:textSize="@dimen/_18sdp"
+                                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+                        </LinearLayout>
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <LinearLayout
+                            android:id="@+id/phoneLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_12sdp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                tools:ignore="UseCompoundDrawables">
+
+                                <ImageView
+                                    android:layout_width="@dimen/_14sdp"
+                                    android:layout_height="@dimen/_14sdp"
+                                    android:layout_gravity="center_vertical"
+                                    android:importantForAccessibility="no"
+                                    android:src="@drawable/ic_phone"
+                                    app:tint="@color/gray" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/_8sdp"
+                                    android:fontFamily="@font/lexend_regular"
+                                    android:text="@string/phone_number"
+                                    android:textColor="@color/gray"
+                                    android:textSize="@dimen/_12sdp" />
+
+                            </LinearLayout>
+
+                            <EditText
+                                android:id="@+id/phoneTextBox"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/main"
+                                android:drawableTint="@color/gray"
+                                android:fontFamily="@font/lexend_semibold"
+                                android:hint="@string/blank"
+                                android:inputType="phone"
+                                android:textSize="@dimen/_18sdp"
+                                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/passwordLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardBackgroundColor="@color/main"
+                    app:cardCornerRadius="@dimen/_14sdp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_12sdp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            tools:ignore="UseCompoundDrawables">
+
+                            <ImageView
+                                android:id="@+id/passwordIcon"
+                                android:layout_width="@dimen/_14sdp"
+                                android:layout_height="@dimen/_14sdp"
+                                android:layout_gravity="center_vertical"
+                                android:importantForAccessibility="no"
+                                android:src="@drawable/ic_vault"
+                                app:tint="@color/gray" />
+
+                            <TextView
+                                android:id="@+id/passwordText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_8sdp"
+                                android:fontFamily="@font/lexend_regular"
+                                android:text="@string/password"
+                                android:textColor="@color/gray"
+                                android:textSize="@dimen/_12sdp" />
+
+                            <TextView
+                                android:id="@+id/dot"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_8sdp"
+                                android:fontFamily="@font/lexend_regular"
+                                android:text="@string/dot"
+                                android:textColor="@color/gray"
+                                android:textSize="@dimen/_12sdp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/passwordStrength"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_8sdp"
+                                android:fontFamily="@font/lexend_regular"
+                                android:text=""
+                                android:textColor="@color/gray"
+                                android:textSize="@dimen/_12sdp"
+                                android:visibility="gone" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+
+                            <ImageView
+                                android:id="@+id/passwordInfo"
+                                android:layout_width="@dimen/_16sdp"
+                                android:layout_height="@dimen/_16sdp"
+                                android:layout_gravity="center_vertical"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?android:attr/selectableItemBackground"
+                                android:src="@drawable/ic_info"
+                                app:tint="@color/gray" />
+
+                        </LinearLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/passwordEditTxtLg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_6sdp"
+                            android:background="@color/main"
+                            android:hint="@string/add_password"
+                            android:textColorHint="@color/gray"
+                            app:endIconMode="password_toggle"
+                            app:layout_constraintBottom_toTopOf="@id/loginBtn">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/passwordTextBox"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/main"
+                                android:fontFamily="@font/lexend_semibold"
+                                android:inputType="textPassword"
+                                android:textSize="@dimen/_18sdp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/urlLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardBackgroundColor="@color/main"
+                    app:cardCornerRadius="@dimen/_14sdp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_12sdp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            tools:ignore="UseCompoundDrawables">
+
+                            <ImageView
+                                android:layout_width="@dimen/_14sdp"
+                                android:layout_height="@dimen/_14sdp"
+                                android:layout_gravity="center"
+                                android:importantForAccessibility="no"
+                                android:src="@drawable/ic_web"
+                                app:tint="@color/gray" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_8sdp"
+                                android:fontFamily="@font/lexend_regular"
+                                android:text="@string/website"
+                                android:textColor="@color/gray"
+                                android:textSize="@dimen/_12sdp" />
+                        </LinearLayout>
+
+                        <EditText
+                            android:id="@+id/urlTextBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/main"
+                            android:drawableTint="@color/gray"
+                            android:fontFamily="@font/lexend_semibold"
+                            android:hint="@string/blank"
+                            android:inputType="text"
+                            android:textSize="@dimen/_18sdp"
+                            tools:ignore="TextFields,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/noteLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardBackgroundColor="@color/main"
+                    app:cardCornerRadius="@dimen/_14sdp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_12sdp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            tools:ignore="UseCompoundDrawables">
+
+                            <ImageView
+                                android:layout_width="@dimen/_14sdp"
+                                android:layout_height="@dimen/_14sdp"
+                                android:layout_gravity="center_vertical"
+                                android:importantForAccessibility="no"
+                                android:src="@drawable/ic_note"
+                                app:tint="@color/gray" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_8sdp"
+                                android:fontFamily="@font/lexend_regular"
+                                android:text="@string/note"
+                                android:textColor="@color/gray"
+                                android:textSize="@dimen/_12sdp" />
+                        </LinearLayout>
+
+
+                        <EditText
+                            android:id="@+id/noteTextBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/main"
+                            android:drawableTint="@color/gray"
+                            android:fontFamily="@font/lexend_semibold"
+                            android:hint="@string/blank"
+                            android:inputType="textEmailAddress"
+                            android:textSize="@dimen/_18sdp"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/categoryLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:cardBackgroundColor="@color/main"
+                    app:cardCornerRadius="@dimen/_14sdp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_12sdp">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/lexend_regular"
+                            android:text="@string/category"
+                            android:textColor="@color/gray"
+                            android:textSize="@dimen/_12sdp"
+                            tools:ignore="TextSizeCheck" />
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/pro"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            app:boxBackgroundColor="@color/main">
+
+                            <Spinner
+                                android:id="@+id/categoryBox"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:textColor="@color/main_alt"
+                                android:textSize="@dimen/_12sdp"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/addCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginEnd="@dimen/_4sdp"
+                    android:fontFamily="@font/lexend_regular"
+                    android:text="@string/add_category"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sdp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_150sdp" />
+
+            </LinearLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+        <RelativeLayout
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg"
+            android:paddingTop="@dimen/_50sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/backButton"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/lightGreen"
+                app:cardCornerRadius="@dimen/_40sdp"
+                app:cardElevation="0dp"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:importantForAccessibility="no"
+                    android:padding="@dimen/_12sdp"
+                    android:src="@drawable/ic_clear"
+                    app:tint="@color/darkGreen" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/createButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/green"
+                app:cardCornerRadius="@dimen/_40sdp"
+                app:cardElevation="0dp"
+                tools:ignore="TouchTargetSizeCheck">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/lexend_regular"
+                    android:paddingHorizontal="@dimen/_16sdp"
+                    android:paddingVertical="@dimen/_10sdp"
+                    android:src="@drawable/ic_clear"
+                    android:text="@string/update"
+                    android:textColor="@color/main"
+                    android:textSize="@dimen/_12sdp"
+                    tools:ignore="TextSizeCheck" />
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/generatePasswordBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_25sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_key"
+            app:tint="@color/darkGreen" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:fontFamily="@font/lexend_regular"
+            android:text="@string/generate_a_new_password"
+            android:textColor="@color/darkGreen"
+            android:textSize="@dimen/_16sdp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

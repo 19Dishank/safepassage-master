@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/darkGreen</item>
+        <item name="colorOnPrimary">@color/main_alt</item>
+        <item name="colorError">@color/red</item>
+        <item name="colorOnError">@color/darkRed</item>
+        <item name="colorSecondaryContainer">@color/lightGreen</item>
+        <item name="fontFamily">@font/my_font_family</item>
+    </style>
+
+</resources>

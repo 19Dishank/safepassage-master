@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "854865946667",
+    "project_id": "safepassage-43c37",
+    "storage_bucket": "safepassage-43c37.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:854865946667:android:2a2a2cf30a0ae8f048a26e",
+        "android_client_info": {
+          "package_name": "com.dhruvbuildz.safepassageapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCi2zUG-RBoxYfgrQHuNTP-PGqOVaapay4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    tools:context=".UI.SetPinActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/_16sdp">
+
+        <RelativeLayout
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg"
+            android:paddingTop="@dimen/_40sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/backButton"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/lightGreen"
+                app:cardCornerRadius="@dimen/_40sdp"
+                app:cardElevation="0dp"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:importantForAccessibility="no"
+                    android:padding="@dimen/_12sdp"
+                    android:src="@drawable/ic_clear"
+                    app:tint="@color/darkGreen" />
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/topSpacer"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_25sdp"
+            app:layout_constraintTop_toBottomOf="@id/topBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/mainHeadText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:fontFamily="@font/lexend_bold"
+            android:text="@string/set_app_security_pin"
+            android:textColor="@color/main_alt"
+            android:textSize="@dimen/_24sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/topSpacer" />
+
+        <TextView
+            android:id="@+id/decText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:fontFamily="@font/lexend_regular"
+            android:text="@string/unlock_the_app_with_this_code"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/_16sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainHeadText" />
+
+
+        <EditText
+            android:id="@+id/pinTextBox1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:background="@color/bg"
+            android:fontFamily="@font/lexend_bold"
+            android:hint="@string/enter_pin"
+            android:maxLength="6"
+            android:inputType="numberPassword"
+            android:textColor="@color/main_alt"
+            android:textSize="@dimen/_30sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/decText" />
+
+        <EditText
+            android:id="@+id/pinTextBox2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/bg"
+            android:maxLength="6"
+            android:fontFamily="@font/lexend_bold"
+            android:hint="@string/enter_pin_again"
+            android:inputType="numberPassword"
+            android:textColor="@color/main_alt"
+            android:textSize="@dimen/_30sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pinTextBox1" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/pinInputsBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="pinTextBox2,pinTextBox1" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:indeterminateDrawable="@drawable/progressbar_color"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/pinInputsBarrier"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/createButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/green"
+            app:cardCornerRadius="@dimen/_40sdp"
+            app:cardElevation="0dp"
+            app:layout_constraintTop_toBottomOf="@id/progressBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/_16sdp"
+            tools:ignore="TouchTargetSizeCheck">
+
+            <TextView
+                android:id="@+id/buttonChange"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:fontFamily="@font/lexend_regular"
+                android:paddingHorizontal="@dimen/_16sdp"
+                android:paddingVertical="@dimen/_10sdp"
+                android:src="@drawable/ic_clear"
+                android:text="@string/set_pin"
+                android:textColor="@color/main"
+                android:textSize="@dimen/_12sdp"
+                tools:ignore="TextSizeCheck" />
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,21 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/darkGreen</item>
+        <item name="colorOnPrimary">@color/main</item>
+        <item name="colorError">@color/red</item>
+        <item name="colorOnError">@color/darkRed</item>
+        <item name="colorSecondaryContainer">@color/lightGreen</item>
+    </style>
+
+    <!-- res/values/styles.xml -->
+    <style name="AppTheme2" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/darkGreen</item>
+        <item name="colorOnPrimary">@color/main</item>
+        <item name="colorError">@color/red</item>
+        <item name="colorOnError">@color/darkRed</item>
+        <item name="colorSecondaryContainer">@color/lightGreen</item>
+    </style>
+
+
+</resources>

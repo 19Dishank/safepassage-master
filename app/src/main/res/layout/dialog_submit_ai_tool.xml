@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main">
+
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_17sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:text="@string/give_feedback"
+        android:textSize="@dimen/_15sdp"
+        android:textColor="@color/main_alt"
+        android:fontFamily="@font/lexend_bold"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/dialog_des"
+        android:layout_width="@dimen/_245sdp"
+        android:layout_height="wrap_content"
+        android:text="@string/share_your_feedback_for_our_app"
+        android:layout_below="@id/dialog_title"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:textSize="@dimen/_12sdp"
+        android:textColor="@color/gray"
+        android:fontFamily="@font/lexend_medium" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editTextName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/_14sdp"
+        android:layout_below="@id/dialog_des"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Enter your feedback here"
+        android:layout_marginStart="@dimen/_6sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_centerHorizontal="true"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+</RelativeLayout>

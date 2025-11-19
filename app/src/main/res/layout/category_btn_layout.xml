@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_3sdp"
+    android:layout_marginEnd="@dimen/_3sdp"
+    android:background="@drawable/deselected_button"
+    app:cardElevation="0dp">
+
+    <TextView
+        android:id="@+id/catNameTxt"
+        style="@style/DeselectedBtnText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/_12sdp"
+        android:paddingVertical="@dimen/_6sdp"
+        android:text="Work"
+        android:textSize="@dimen/_12sdp" />
+
+</RelativeLayout>
