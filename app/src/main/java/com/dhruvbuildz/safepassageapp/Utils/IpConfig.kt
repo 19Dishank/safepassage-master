@@ -12,7 +12,7 @@ package com.dhruvbuildz.safepassageapp.Utils
 object IpConfig {
     
     // ===== UPDATE ONLY THIS IP ADDRESS =====
-    const val CURRENT_IP = "192.168.31.118"
+    const val CURRENT_IP = "10.68.141.87"
     // ======================================
     
     // Base URLs

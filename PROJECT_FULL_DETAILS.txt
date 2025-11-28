@@ -1,0 +1,587 @@
+SafePassage / WallWonders – Complete Details
+============================================
+
+Index-aligned overview (matching the supplied documentation index screenshot).
+
+1. Introduction (Pages 1-3)
+---------------------------
+
+1.1 Proposed System and Objectives
+  • Deliver a unified credential/document vault with AI assistive tooling.
+  • Provide admins with automated sentiment dashboards and AI summaries.
+  • Maintain on-prem hosting requirements (XAMPP) to avoid cloud lock-in.
+  • Objectives:
+      - Encrypt and store passwords, cards, and documents safely.
+      - Auto-classify user feedback (positive/negative/needs review/suggestion).
+      - Extract document semantics (type, expiry, summary) using OCR + LLMs.
+      - Support dark/light themes, screenshot permissions, privacy compliance.
+
+1.2 Core Components
+  • Android Client (Kotlin, MVVM, Room, Coroutines, ML Kit, PDFBox).
+  • PHP/Apache backend with REST-style endpoints in `Admin/dashboard/api`.
+  • MySQL schema (`safepassage.sql`) with tables: users, passwords, cards, documents, feedbacks, pins, utilities, categories, admins.
+  • AI connectors: `Admin/dashboard/includes/openai_client.php`, Android `DocumentAIAnalyzer/Orchestrator`.
+  • Security utilities: `CryptographyManager`, `PinViewModel`, `SetPinActivity`.
+
+1.3 Minimum / Maximum Requirements
+  • Server: Windows 10/11, XAMPP (Apache+MySQL), PHP >=7.4, 4 GB RAM minimum.
+  • Client: Android 8+, 2 GB RAM minimum (recommended 4 GB), active internet/WiFi or USB debugging.
+  • Development: Android Studio, Java JDK 11+, ADB, Python optional for scripts.
+
+1.4 Advantages and Limitations
+  Advantages:
+    - AI-driven insights reduce manual analysis.
+    - End-to-end encryption using Android Keystore.
+    - Modular MVVM architecture simplifies maintenance.
+    - Works entirely on LAN (no public hosting required).
+  Limitations:
+    - Requires XAMPP instance running continuously.
+    - AI features need OpenRouter/OpenAI key and internet connectivity.
+    - Currently Android-only client; no iOS/web app.
+    - Item-level locks pending remote sync support.
+
+2. Requirement Determination & Analysis (Page 4)
+------------------------------------------------
+
+2.1 Requirement Determination
+  Functional:
+    - User registration/login, session persistence.
+    - CRUD for passwords/cards/documents.
+    - Feedback submission and AI sentiment tagging.
+    - AI document processing (text extraction, summary, expiry).
+    - Settings toggles (theme, screenshots, privacy policy access).
+  Non-functional:
+    - Encryption of sensitive data.
+    - Offline-first Room caching with eventual sync.
+    - Responsive UI and accessibility compliance.
+
+2.2 Targeted Users
+  • End Users: Individuals storing credentials/documents.
+  • Admins: Monitor feedback, manage privacy/legal documentation.
+  • Evaluators: Academic mentors verifying MCA project deliverables.
+
+3. System Design (Pages 5-12)
+-----------------------------
+
+3.1 Use Case Diagram (conceptual)
+  Actors: User, Admin, AI Service.
+  Use cases: Manage credentials, upload document, request AI summary, submit feedback, view sentiment report, toggle settings, verify PIN.
+
+3.2 Class Diagram (core classes)
+  • Room Entities: Password, Card, Document, Utilities, Pin.
+  • ViewModels: PasswordViewModel, CardViewModel, DocumentViewModel, UtilitiesViewModel, PinViewModel.
+  • Repositories: PasswordRepository, CardRepository, DocumentRepository.
+  • Services: DocumentAIOrchestrator, DocumentAIAnalyzer, DocumentTextExtractor, CryptographyManager.
+
+3.3 Interaction Diagram
+  Example flow (Document AI):
+    User → AddDocumentActivity → DocumentManager (copy file) → DocumentRepository → DocumentAIOrchestrator → DocumentTextExtractor → DocumentAIAnalyzer (OpenRouter API) → Room DB update → UI displays AI badge.
+
+3.4 Activity Diagram
+  Example (Feedback sentiment):
+    Feedback submission → stored in DB (feedbacks) → cron/trigger runs `feedback_sentiment_service.php` → `OpenAIClient::classifySentiment` → update DB with label/category → `get_feedbacks_page_data.php` returns summary → dashboard filters update.
+
+3.5 Data Dictionary (key tables/fields)
+  • `users(user_id PK, user_name, email, password_hash, created_at, updated_at)`
+  • `passwords(pass_id PK, user_id FK, title, user_name, email, phone, password, url, package_name, note, cat_id FK, created_at, updated_at, last_used)`
+  • `cards(car_id PK, user_id FK, title, card_holder_name, card_number, expiration_date, cvv, pin, note)`
+  • `documents(document_id PK, user_id FK, title, file_name, file_path, file_size, mime_type, created_at, updated_at, aiDocumentType, aiExpiryDate, aiSummary, aiConfidence, aiLastAnalyzedAt, aiStatus, aiFailureReason)`
+  • `feedbacks(feedback_id PK, user_id FK, message, sentiment_label, sentiment_confidence, sentiment_reason, sentiment_category, needs_review_flag)`
+  • `pins(user_id PK, pin_hash / encrypted_pin, created_at)`
+  • `utilities(uid PK default "1", isLockApp, lockCode, isUsePhoneLock, isScreenshot, isDBSync)`
+  • `categories(cat_id PK, cat_name)`
+
+4. Agile Documentation (Pages 14-20)
+------------------------------------
+
+4.1 Agile Project Charter
+  Vision: “Deliver a secure, AI-enhanced password/document manager for SafePassage users.”
+  Stakeholders: Project mentor, Android dev team, backend team, QA.
+
+4.2 Agile Roadmap / Schedule
+  Sprint 0: Environment setup (XAMPP, Room DB scaffolding).
+  Sprint 1: Authentication, CRUD for passwords/cards.
+  Sprint 2: Feedback sentiment + admin dashboard cards.
+  Sprint 3: Document AI pipeline + AI dialog UX.
+  Sprint 4: Theme toggle, screenshot guard, privacy policy hosting, final polish.
+
+4.3 Agile Project Plan
+  - Maintain product backlog in shared board (features above).
+  - Definition of Done includes: encryption verified, linting clean, README updated.
+  - Regular demo after each sprint with screenshot evidence.
+
+4.4 Agile User Stories (≥3)
+  1. “As a user, I want to upload a document and see AI summary so I can track expiry.”
+     Acceptance: DocumentAIOrchestrator success path stores summary + expiry shown in dialog.
+  2. “As an admin, I want to filter feedback by sentiment so I can focus on negative reviews.”
+     Acceptance: Dashboard chips show accurate counts and table filters.
+  3. “As a user, I want dark mode toggle so the app matches my preference.”
+     Acceptance: Theme persists via ThemeManager across app restarts.
+
+4.5 Agile Release Plan
+  Release 0.1: Authentication + basic vault.
+  Release 0.2: Feedback AI + dashboard filters.
+  Release 0.3: Document AI with dialog + bug fixes.
+  Release 1.0: Theming, privacy HTML, packaging instructions (current state).
+
+4.6 Agile Sprint Backlog (sample Sprint 3)
+  • Task: Integrate PDFBox + ML Kit (DocumentTextExtractor).
+  • Task: Build DocumentAIAnalyzer prompt + JSON parsing.
+  • Task: Create Dialog layout + adapter updates.
+  • Task: QA test with mixed document types.
+
+4.7 Agile Test Plan
+  • Unit tests: ViewModel logic (mock repositories), AI analyzer parsing.
+  • Instrumentation: Document upload flow, theme toggle persistence, PIN verification.
+  • Manual: Feedback filter UI, privacy policy loading, screenshot toggle enforcement.
+
+4.8 Earned-Value / Burn Charts
+  • Track story points per sprint; maintain burn-down screenshot in final documentation (placeholder).
+  • EV metrics: PV vs EV vs AC for QA sign-off (document progress logs).
+
+5. Screenshots (Pages 21-27)
+----------------------------
+Capture and insert the following:
+  • Dashboard view showing sentiment cards, counts, filter buttons.
+  • Feedback table with sentiment label column.
+  • Document list item highlighting AI badge + lock/delete icons.
+  • AI details dialog (type, expiry, summary rows).
+  • Settings screen with theme toggle + screenshot switch.
+  • Privacy policy HTML displayed in WebView/browser.
+  • Debug/Test OpenAI page verifying API key.
+
+Appendix A – Comprehensive API Inventory
+----------------------------------------
+Admin/dashboard/api endpoints:
+  • `register_pin.php` – POST { userId, pin } → stores hashed PIN (uses bcrypt, ensures user exists).
+  • `verify_pin.php` – POST { userId, pin } → verifies hashed PIN, returns success + user info.
+  • `check_pin_status.php` – POST { userId } → returns boolean `hasPin`.
+  • `get_feedbacks_page_data.php` – GET/POST → returns feedback list, sentiment counts, refresh token.
+  • `openai_client.php` (class file) – used by endpoints to call OpenRouter.
+  • `test_openai_client.php` – web UI for manual sentiment testing.
+  • `generate_ai_summary.php` – previously produced AI operations card (currently removed per request, but file available in history).
+  • `privacy_policy.html` – static HTML served to app.
+  • Additional supporting scripts: `config/db.php`, `includes/feedback_sentiment_service.php`, `debug/test_openai_client.php`.
+
+Android network touchpoints:
+  • `DocumentAIAnalyzer` – POST to `https://openrouter.ai/api/v1/chat/completions` with BuildConfig API key.
+  • ApiUrlBuilder references (alive in IpConfig):
+        - `REGISTER_USER_URL`, `REGISTER_PIN_URL`, `VERIFY_PIN_URL`, `CHECK_PIN_STATUS_URL`, `USER_LOGIN_URL`, `CHECK_USER_STATUS_URL`.
+  • DocumentAI uses OkHttp/Retrofit-style manual request or direct OkHttp (depending on orchestrator implementation).
+
+Appendix B – Technology Stack Snapshot
+--------------------------------------
+Frontend: Android (Kotlin), Jetpack, Material 3, ML Kit, PDFBox, Coroutine/LiveData, ViewBinding.
+Backend: PHP 8, Apache, MySQL 5.7+, PDO, OpenRouter API, optional Firebase RTDB (privacy link).
+DevOps: Manual deployment via XAMPP; potential future Dockerization.
+
+Appendix C – Troubleshooting & Future Work
+------------------------------------------
+See README sections for setup/troubleshooting; future backlog includes item-level lock sync, AI dashboard reintegration, cross-platform clients, CI/CD automation.
+
+Use this expanded document as the master reference covering schemas, APIs, architecture, agile artifacts, and screenshot checklist exactly as requested.
+
+SafePassage / WallWonders – Complete Technical Reference
+=========================================================
+
+1. Project Overview
+-------------------
+SafePassage is a hybrid Android + PHP/MySQL platform that combines a secure password/document vault with AI-powered feedback analysis and document intelligence. The “WallWonders” feature set layers AI models (via OpenRouter/OpenAI) on top of traditional credential management to provide auto-summaries, expiry detection, and health insights. The stack is designed for on-premise hosting via XAMPP, making it deployable without public cloud dependencies.
+
+2. Technology Stack
+-------------------
+Frontend (Mobile):
+  • Android app (Kotlin, AndroidX, Material Components)
+  • Room persistence (Password, Card, Document, Utilities, Pin entities)
+  • Coroutines + LiveData + ViewModel architecture
+  • ML Kit Text Recognition, PDFBox-Android for OCR/PDF parsing
+
+Backend (Server):
+  • PHP 8 / Apache (XAMPP)
+  • MySQL 5.7+ database (schema in `safepassage.sql`)
+  • REST-like APIs under `Admin/dashboard/api`
+  • OpenRouter/OpenAI integration via `OpenAIClient` wrapper (Sentiment, document AI, debug tooling)
+
+Shared / Utilities:
+  • CryptographyManager (AES/GCM keys per user via Android Keystore)
+  • SessionManager (SharedPreferences-based user session caching)
+  • IpConfig + ApiUrlBuilder for dynamic endpoint resolution
+
+3. Directory Structure (High Level)
+-----------------------------------
+SafePassage/
+  ├─ Admin/
+  │   └─ dashboard/
+  │       ├─ api/                ← PHP endpoints (feedback, PIN, AI debug, etc.)
+  │       ├─ config/             ← DB connection, credentials
+  │       ├─ includes/           ← OpenAI client, feedback sentiment service
+  │       ├─ pages/              ← Dashboard UI (feedbacks.php, privacy policy HTML, etc.)
+  │       └─ sql/                ← Schema helpers (complete_schema.sql, migrations)
+  ├─ app/
+  │   └─ src/main/
+  │       ├─ java/com/dhruvbuildz/safepassageapp/
+  │       │   ├─ UI/             ← Activities, fragments, adapters, bottom sheets
+  │       │   ├─ Database/Room/  ← Entities, DAO, repositories, ViewModels
+  │       │   ├─ Fetures/        ← Utility managers (CryptographyManager, Utils, ItemLock placeholder)
+  │       │   ├─ ai/             ← Document AI orchestrator/analyzer/text extractor
+  │       │   └─ Utils/          ← ApiUrlBuilder, IpConfig, SessionManager, etc.
+  │       └─ res/                ← Layouts, drawables, themes, strings (AI dialog, settings, etc.)
+  ├─ safepassage.sql             ← Full MySQL schema dump
+  ├─ README.md                   ← Setup + troubleshooting guide
+  └─ Doc_Final_Wallwonders.docx  ← Original project report source
+
+4. Backend Schemas & Tables
+---------------------------
+Primary database: `safepassage`
+
+Key tables (from `safepassage.sql` / `Admin/dashboard/sql/complete_schema.sql`):
+  • `users` – core user profile (user_id, user_name, email, password hash, timestamps)
+  • `passwords` – saved login entries (pass_id, user_id, title, username/email/phone, encrypted password/note, cat_id, timestamps)
+  • `cards` – stored card details (car_id, user_id, title, card_holder_name, card_number, expiration_date, cvv, pin, note)
+  • `documents` – uploaded files (document_id, user_id, title, file metadata, AI columns: ai_status, ai_summary, ai_expiry_date, etc.)
+  • `feedbacks` – user feedback records enhanced with sentiment fields (label, confidence, reason, keyword counts)
+  • `pins` – application-level PIN hashes (user_id, pin_hash/encrypted_pin + created_at)
+  • `utilities` – per-user feature toggles (lock app, screenshot permission, DB sync placeholder)
+  • `categories`, `admins`, `installations_state`, auxiliary indexes
+
+Every table is keyed by SAFE UUID or auto-increment ID, and foreign keys enforce cascade deletes for user-owned objects.
+
+5. Backend APIs (Selected)
+--------------------------
+Location: `Admin/dashboard/api`
+
+  • `register_pin.php` / `verify_pin.php` / `check_pin_status.php`
+        - Handle storing/verifying application PIN hash per user.
+        - Expect JSON body { userId, pin }.
+  • `get_feedbacks_page_data.php`
+        - Aggregates feedback entries + sentiment counts for dashboard filters.
+  • `generate_ai_summary.php` (removed per user request) / `openai_client` debug endpoints.
+  • `privacy_policy.html` (served statically for in-app browser access).
+
+All endpoints rely on `config/db.php` for PDO connection with environment overrides (DB_HOST, DB_NAME, etc.).
+
+6. OpenAI / OpenRouter Integration
+-----------------------------------
+Files:
+  • `Admin/dashboard/includes/openai_client.php`
+  • `app/src/main/java/.../DocumentAIAnalyzer.kt`
+  • `app/src/main/java/.../DocumentAIOrchestrator.kt`
+
+Key behaviors:
+  • Dashboard uses `OpenAIClient::classifySentiment` to process pending feedback, store label + category.
+  • Analyzer builds a structured prompt describing expected JSON (document_type, expiry, summary, confidence).
+  • Orchestrator pipeline:
+        1. Extract text (PDFBox or ML Kit).
+        2. Call LLM via OpenRouter with BuildConfig API key.
+        3. Persist AI metadata and update Room entity state (PENDING → SUCCESS/FAILED).
+
+7. Android Architecture Details
+-------------------------------
+Entities & DAOs:
+  • `Password`, `Card`, `Document`, `Utilities`, `Pin`.
+  • Each DAO exposes LiveData queries + update operations (search, sort, etc.).
+
+Repositories:
+  • `PasswordRepository`, `CardRepository`, `DocumentRepository` wrap DAO calls for ViewModels.
+
+ViewModels:
+  • `PasswordViewModel`, `CardViewModel`, `DocumentViewModel`, `UtilitiesViewModel`, `PinViewModel`.
+  • Manage coroutine scopes for insert/update/delete, provide LiveData to UI.
+
+UI Layer:
+  • Activities: `MainActivity`, `Login_Screen`, `StartActivity`, `ViewDocumentActivity`, `ViewLoginActivity`, `SetPinActivity`, etc.
+  • Fragments: `HomeFragment`, `SettingFragment`, `AddFragment` bottom sheet.
+  • Adapters: `PasswordAdapter`, `CardAdapter`, `DocumentAdapter`, `UnifiedAdapter`.
+        - DocumentAdapter shows AI status badge and opens dialog with type/expiry/summary.
+        - UnifiedAdapter merges passwords + documents (cards accessible via filter).
+
+Utilities:
+  • `CryptographyManager` – AES/GCM encrypt/decrypt using per-user keystore alias.
+  • `SessionManager` – persists last logged-in user ID for cross-activity retrieval.
+  • `ThemeManager` – handles dark/light mode toggle persisted in SharedPreferences.
+  • `Utils.pickDocument` – content picker for AddDocument workflow.
+
+8. Security Considerations
+--------------------------
+  • All sensitive fields (passwords, card numbers, document AI summary?) are encrypted before Room persistence.
+  • PINs stored locally are encrypted; remote PINs hashed via bcrypt.
+  • Documents saved to internal storage path returned by `DocumentManager.copyFileToInternalStorage`, accessible via FileProvider only.
+  • Settings toggle for allowing screenshots (default off).
+  • Planned “item lock” functionality extends Pin architecture to per-document/password locks.
+
+9. AI Feedback & Dashboard Features
+-----------------------------------
+  • `Admin/dashboard/pages/feedbacks.php` renders:
+        - Sentiment filter chips (Positive, Negative, Neutral, Needs Review, Suggestions).
+        - Table displays label, confidence, reason, category.
+        - Auto-refresh JS polls API to keep counts consistent.
+  • `feedback_sentiment_service.php`:
+        - Ensures DB schema contains `sentiment_category`.
+        - Processes pending records by calling OpenAI client.
+  • Debug page `Admin/dashboard/debug/test_openai_client.php` allows manual text classification.
+
+10. Document AI UX
+------------------
+Android UI components:
+  • `document_item_layout.xml` – card with file icon, metadata, AI badges, “View AI details” button, delete icon.
+  • `dialog_ai_details.xml` – gradient header, status chip, rows for Type/Expiry/Summary, responsive width calculation.
+  • `DocumentAdapter.showAiDetailsDialog` – inflates dialog, populates fields, handles fallback statuses.
+
+AI pipeline modules:
+  • `DocumentTextExtractor` – handles pdf/docx plain text extraction, image OCR, asynchronous operations.
+  • `DocumentAIResult` – data class { documentType, expiryDate, summary, confidence }.
+  • `DocumentAIAnalyzer` – builds prompt, calls OpenRouter, parses JSON.
+  • `DocumentAIOrchestrator` – orchestrates extraction + analysis, updates Room entity fields, handles retries/failure reasons.
+
+11. Settings & Utilities
+------------------------
+`SettingFragment`:
+  • Displays user info (from `UserViewModel`), feedback submission entry point.
+  • Theme toggle (replaces old DB sync switch) uses `ThemeManager`.
+  • Screenshot toggle persists to Utilities table.
+  • Privacy policy button fetches hosted URL from Firebase Realtime Database.
+
+`ThemeManager`:
+  • SharedPreferences store `theme_mode`.
+  • Applies AppCompatDelegate mode in `MainActivity`, `StartActivity`, `Login_Screen`.
+
+12. Deployment & Setup Notes
+----------------------------
+Refer to `README.md` for full instructions. Highlights:
+  • Bring up XAMPP (Apache + MySQL), import `safepassage.sql`.
+  • Update `IpConfig.CURRENT_IP` when network changes.
+  • For USB debugging, run `adb reverse tcp:80 tcp:80` and set IP to `127.0.0.1`.
+  • Ensure firewall allows port 80; test `http://<IP>/SafePassage/Admin/...`.
+  • Default admin credentials: admin/admin.
+
+13. Troubleshooting Checklist
+-----------------------------
+  • Connection timeout → confirm IP, firewall, XAMPP, uninstall/reinstall app.
+  • DB errors → verify MySQL running, tables exist, re-import schema.
+  • Admin dashboard blank → check Apache logs, correct project path (`D:\xampp\htdocs\SafePassage\`).
+  • AI errors → test via debug page, verify OpenRouter key in `openai_credentials.php` or BuildConfig.
+
+14. Future Enhancements (Backlog)
+---------------------------------
+  • Item-level lock PIN sync (server + client).
+  • Reintroduce AI operations summary on dashboard once requirements finalized.
+  • Cross-platform client (iOS/web) and push notification pipeline for document expiry reminders.
+  • Cloud deployment scripts (Docker, CI/CD).
+
+15. Reference Files
+-------------------
+  • Database schema dump: `safepassage.sql`
+  • Document AI layouts: `app/src/main/res/layout/document_item_layout.xml`, `dialog_ai_details.xml`
+  • AI logic: `DocumentAIAnalyzer.kt`, `DocumentAIOrchestrator.kt`, `DocumentTextExtractor.kt`
+  • Sentiment backend: `Admin/dashboard/includes/openai_client.php`, `feedback_sentiment_service.php`, `get_feedbacks_page_data.php`
+  • Theme + settings: `SettingFragment.kt`, `ThemeManager.kt`, `strings.xml`
+  • Security core: `CryptographyManager.kt`, `PinViewModel.kt`, `SetPinActivity.kt`, PHP pin APIs
+
+Use this document as the canonical technical reference. Update sections whenever the schema, APIs, or major features change to keep downstream documentation consistent.
+
+16. System Requirements (Minimum & Maximum)
+===========================================
+
+16.1 Server/Backend Requirements
+--------------------------------
+Requirement Type: Processor (CPU)
+  • Minimum: Intel Core i3 (2.0 GHz) or AMD equivalent, 2 cores
+  • Maximum/Recommended: Intel Core i5/i7 (3.0+ GHz) or AMD Ryzen 5/7, 4+ cores
+  • Notes: Multi-core recommended for concurrent API requests and AI processing
+
+Requirement Type: RAM
+  • Minimum: 4 GB RAM
+  • Maximum/Recommended: 8 GB RAM or higher
+  • Notes: Higher RAM improves performance for MySQL queries, PHP processing, and concurrent user sessions
+
+Requirement Type: Storage
+  • Minimum: 10 GB free space (for XAMPP, MySQL data, uploaded documents)
+  • Maximum/Recommended: 50+ GB free space (for large document storage, database growth, backups)
+  • Notes: Storage needs increase with user count and document uploads; SSD recommended for better I/O
+
+Requirement Type: Operating System
+  • Minimum: Windows 10 (64-bit) or Windows Server 2016
+  • Maximum/Recommended: Windows 11 (64-bit) or Windows Server 2019/2022, Linux (Ubuntu 20.04+ / CentOS 7+)
+  • Notes: XAMPP supports Windows, Linux, macOS; production can use native Apache/MySQL/PHP stack
+
+Requirement Type: Web Browser
+  • Minimum: Chrome 90+, Firefox 88+, Edge 90+, Safari 14+ (for admin dashboard access)
+  • Maximum/Recommended: Latest stable versions of Chrome, Firefox, Edge, or Safari
+  • Notes: Required for accessing Admin/dashboard pages; JavaScript must be enabled
+
+Requirement Type: Database
+  • Minimum: MySQL 5.7 or MariaDB 10.3
+  • Maximum/Recommended: MySQL 8.0+ or MariaDB 10.6+
+  • Notes: MySQL 8.0+ offers better performance, JSON support, and security features
+
+Requirement Type: IDE (Development)
+  • Minimum: Notepad++ or VS Code (for PHP/HTML editing)
+  • Maximum/Recommended: PhpStorm, VS Code with PHP extensions, or Eclipse PDT
+  • Notes: IDE with syntax highlighting, debugging, and database integration recommended
+
+Requirement Type: Internet
+  • Minimum: Broadband connection (5 Mbps download, 1 Mbps upload)
+  • Maximum/Recommended: High-speed internet (25+ Mbps download, 5+ Mbps upload)
+  • Notes: Required for OpenRouter/OpenAI API calls, AI document analysis, and remote access
+
+Requirement Type: Hosting Platform
+  • Minimum: Local XAMPP installation (Windows/Linux/macOS)
+  • Maximum/Recommended: 
+      - On-premise: XAMPP, WAMP, LAMP stack, or Docker containerization
+      - Cloud: AWS EC2, Google Cloud Platform, Azure VM, or shared hosting with PHP 7.4+
+  • Notes: XAMPP recommended for development/testing; production can use cloud VPS or dedicated server
+
+16.2 Android Client Requirements
+---------------------------------
+Requirement Type: Processor (CPU)
+  • Minimum: ARMv7 (32-bit) or ARM64 (64-bit), 1.2 GHz dual-core
+  • Maximum/Recommended: ARM64 (64-bit), 2.0+ GHz quad-core or octa-core
+  • Notes: Multi-core improves performance for document processing, AI analysis, and encryption operations
+
+Requirement Type: RAM
+  • Minimum: 2 GB RAM
+  • Maximum/Recommended: 4 GB RAM or higher
+  • Notes: Higher RAM improves app responsiveness, especially for large documents and AI processing
+
+Requirement Type: Storage
+  • Minimum: 100 MB free space (for app installation)
+  • Maximum/Recommended: 500+ MB free space (for app data, cached documents, Room database)
+  • Notes: Additional storage needed for document uploads; internal storage recommended for security
+
+Requirement Type: Operating System
+  • Minimum: Android 8.0 (API level 26) - Oreo
+  • Maximum/Recommended: Android 13+ (API level 33+) - Latest stable Android version
+  • Notes: Android 8.0+ required for Android Keystore encryption, FileProvider, and modern security features
+
+Requirement Type: Web Browser
+  • Minimum: Not applicable (native Android app)
+  • Maximum/Recommended: Not applicable (native Android app)
+  • Notes: App uses WebView component for privacy policy display; Chrome WebView recommended
+
+Requirement Type: Database
+  • Minimum: Room Database (SQLite) - included in Android
+  • Maximum/Recommended: Room Database (SQLite) with encryption support
+  • Notes: Room database is embedded; no external database required for client
+
+Requirement Type: IDE (Development)
+  • Minimum: Android Studio Arctic Fox (2020.3.1) or later
+  • Maximum/Recommended: Android Studio latest stable version (Hedgehog/Iguana or newer)
+  • Notes: Android Studio required for building, debugging, and testing the app
+
+Requirement Type: Internet
+  • Minimum: WiFi or mobile data (3G/4G) for API calls and AI features
+  • Maximum/Recommended: WiFi or 4G/5G for faster AI processing and document sync
+  • Notes: Offline mode available for viewing cached data; internet required for login, sync, and AI analysis
+
+Requirement Type: Hosting Platform
+  • Minimum: Google Play Store or direct APK installation
+  • Maximum/Recommended: Google Play Store, F-Droid, or enterprise distribution
+  • Notes: App can be distributed via APK or published to app stores
+
+16.3 Development Environment Requirements
+------------------------------------------
+Requirement Type: Processor (CPU)
+  • Minimum: Intel Core i5 (2.5 GHz) or AMD equivalent, 4 cores
+  • Maximum/Recommended: Intel Core i7/i9 (3.5+ GHz) or AMD Ryzen 7/9, 8+ cores
+  • Notes: Multi-core essential for Android Studio compilation, emulator, and concurrent development tools
+
+Requirement Type: RAM
+  • Minimum: 8 GB RAM
+  • Maximum/Recommended: 16 GB RAM or higher
+  • Notes: Android Studio, emulator, and multiple tools require significant RAM; 16 GB recommended
+
+Requirement Type: Storage
+  • Minimum: 20 GB free space (for Android Studio, SDK, emulator, project files)
+  • Maximum/Recommended: 100+ GB free space (for multiple SDK versions, emulators, project history)
+  • Notes: SSD highly recommended for faster build times and emulator performance
+
+Requirement Type: Operating System
+  • Minimum: Windows 10 (64-bit), macOS 10.14+, or Linux (Ubuntu 18.04+)
+  • Maximum/Recommended: Windows 11, macOS 12+, or Linux (Ubuntu 22.04+)
+  • Notes: Android Studio supports all three platforms; Windows recommended for XAMPP compatibility
+
+Requirement Type: Web Browser
+  • Minimum: Chrome 90+, Firefox 88+, or Edge 90+ (for testing admin dashboard)
+  • Maximum/Recommended: Latest stable Chrome or Firefox
+  • Notes: Required for testing PHP endpoints and admin dashboard functionality
+
+Requirement Type: Database
+  • Minimum: MySQL 5.7 or MariaDB 10.3 (via XAMPP)
+  • Maximum/Recommended: MySQL 8.0+ or MariaDB 10.6+ (via XAMPP or standalone)
+  • Notes: XAMPP includes MySQL; standalone installation also supported
+
+Requirement Type: IDE (Development)
+  • Minimum: Android Studio Arctic Fox (2020.3.1) with Android SDK 30+
+  • Maximum/Recommended: Android Studio latest stable with Android SDK 33+, IntelliJ IDEA Ultimate (optional)
+  • Notes: Android Studio includes Android SDK, emulator, and build tools; IntelliJ IDEA for advanced features
+
+Requirement Type: Internet
+  • Minimum: Broadband connection (10 Mbps download, 2 Mbps upload)
+  • Maximum/Recommended: High-speed internet (50+ Mbps download, 10+ Mbps upload)
+  • Notes: Required for SDK downloads, dependency resolution, API testing, and AI service access
+
+Requirement Type: Hosting Platform
+  • Minimum: Local development (XAMPP + Android Studio)
+  • Maximum/Recommended: 
+      - Local: XAMPP + Android Studio + Git version control
+      - CI/CD: GitHub Actions, GitLab CI, or Jenkins (optional)
+  • Notes: Local development sufficient; CI/CD optional for automated testing and deployment
+
+16.4 Additional Software Dependencies
+--------------------------------------
+Server/Backend:
+  • PHP 7.4+ (included in XAMPP)
+  • Apache HTTP Server 2.4+ (included in XAMPP)
+  • MySQL/MariaDB (included in XAMPP)
+  • PHP extensions: PDO, PDO_MySQL, JSON, cURL, OpenSSL
+  • Composer (optional, for PHP dependency management)
+
+Android Development:
+  • Java JDK 11+ (included with Android Studio)
+  • Kotlin (included with Android Studio)
+  • Android SDK Platform 26+ (Android 8.0+)
+  • Android Build Tools 30.0.3+
+  • Gradle 7.0+ (included with Android Studio)
+  • Android Emulator or physical device for testing
+
+Optional Tools:
+  • Git (for version control)
+  • Postman or Insomnia (for API testing)
+  • MySQL Workbench or phpMyAdmin (for database management)
+  • ADB (Android Debug Bridge) for USB debugging
+
+16.5 Network Requirements
+--------------------------
+For Local Development:
+  • Same WiFi network for server and Android device, OR
+  • USB debugging with port forwarding: `adb reverse tcp:80 tcp:80`
+  • Firewall configured to allow port 80 (HTTP) and 3306 (MySQL, if remote access needed)
+
+For Production/Deployment:
+  • Static IP address or domain name for server
+  • Port forwarding on router (if behind NAT)
+  • SSL/TLS certificate (recommended for HTTPS)
+  • Firewall rules for HTTP (80) and HTTPS (443)
+
+16.6 Performance Benchmarks (Reference)
+---------------------------------------
+Server Performance (Minimum):
+  • API response time: < 500ms for simple queries
+  • Document upload: < 2s for files up to 5 MB
+  • AI analysis: < 10s per document (depends on OpenRouter API)
+
+Server Performance (Recommended):
+  • API response time: < 200ms for simple queries
+  • Document upload: < 1s for files up to 5 MB
+  • AI analysis: < 5s per document (with faster internet and optimized prompts)
+
+Android App Performance (Minimum):
+  • App launch: < 3s
+  • Document list load: < 2s
+  • PIN verification: < 500ms
+
+Android App Performance (Recommended):
+  • App launch: < 1.5s
+  • Document list load: < 1s
+  • PIN verification: < 200ms
+
